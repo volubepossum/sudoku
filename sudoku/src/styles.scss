@@ -7,12 +7,14 @@ $dark_color : black;
   background-color: $light_color;
   border-color: $dark_color;
   border-width: 3px;
+  border-style: inset;
 }
 @mixin color_dark {
   background-color: $dark_color;
   color: $light_color;
   border-color: $light_color;
   border-width: 3px;
+  border-style: inset;
 }
 
 @keyframes turn {
@@ -21,8 +23,7 @@ $dark_color : black;
   100% {transform: rotate(-360deg)}
 
 }
-
-@mixin hover_animated {
+@mixin hover_animated_rotate {
     @include color_light();
     transition: all 500ms ease;
     &:hover{
@@ -30,6 +31,23 @@ $dark_color : black;
       animation-name: turn;
       @include color_dark();
     }
+}
+
+@keyframes enlarge {
+  0% {transform: scale(1)}
+  20% {transform: scale(0.95)}
+  100% {transform: scale(1.3)}
+
+}
+@mixin hover_animated_enlarge {
+  @include color_light();
+  transition: all 300ms ease;
+  &:hover{
+    animation: 300ms;
+    //animation-name: enlarge;
+    @include color_dark();
+    transform: scale(1.3);
+  }
 }
 
 @mixin centerd_content {
@@ -44,15 +62,55 @@ $dark_color : black;
   font-weight: 600;
 }
 
+@mixin small_text {
+  font-size: small;
+  font-weight: 100;
+  word-break: break-all;
+}
+
+
+
+
+.simple-text-container {
+  @include simple_text();
+  @include centerd_content();
+}
+
+.small-text-container {
+  @include small_text();
+  @include centerd_content();
+}
+
+@mixin table_cell{
+  @include hover_animated_enlarge();
+  width: 100%;
+  height: 100%;
+}
+.table-cell-light {
+  @include table_cell();
+  @include color_light();
+}
+.table-cell-dark {
+  @include table_cell();
+  @include color_dark();
+}
+
 
 
 //faszom nem importol, itt kell hagyni
+//should go into button.component.scss
 .btn {
-  @include hover_animated();
+  @include hover_animated_rotate();
   @include centerd_content();
   @include simple_text();
   width: fit-content;
   padding-left: 20px;
   padding-right: 20px;
   border-radius: 21px;
+}
+
+.three-by-three_grid {
+  display:grid;
+  grid-template-columns: auto auto auto;
+  grid-template-rows: 33.3% 33.3% 33.3%;
 }
