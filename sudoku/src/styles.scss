@@ -1,0 +1,58 @@
+
+$light_color :aqua;
+$dark_color : black;
+
+@mixin color_light {
+  color: $dark_color;
+  background-color: $light_color;
+  border-color: $dark_color;
+  border-width: 3px;
+}
+@mixin color_dark {
+  background-color: $dark_color;
+  color: $light_color;
+  border-color: $light_color;
+  border-width: 3px;
+}
+
+@keyframes turn {
+  0% {transform: rotate(0deg)}
+  20% {transform: rotate(30deg)}
+  100% {transform: rotate(-360deg)}
+
+}
+
+@mixin hover_animated {
+    @include color_light();
+    transition: all 500ms ease;
+    &:hover{
+      animation: 500ms;
+      animation-name: turn;
+      @include color_dark();
+    }
+}
+
+@mixin centerd_content {
+  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+@mixin simple_text {
+  font-size: large;
+  font-weight: 600;
+}
+
+
+
+//faszom nem importol, itt kell hagyni
+.btn {
+  @include hover_animated();
+  @include centerd_content();
+  @include simple_text();
+  width: fit-content;
+  padding-left: 20px;
+  padding-right: 20px;
+  border-radius: 21px;
+}
