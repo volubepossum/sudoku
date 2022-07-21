@@ -23,6 +23,14 @@ export class SudokuComponent implements OnInit {
   getSudoku(){
     this.sudokuState = this._sudokuService.xddd();
   }
+  faszom(){
+    this.sudokuState = this._sudokuService.fasz();
+  }
+
+  miafaszvan(){
+    console.log(this.sudokuState);
+
+  }
 
   getCluster(i:number){
     let desiredX:number = i%3;
@@ -37,11 +45,10 @@ export class SudokuComponent implements OnInit {
     }
   }
 
-  fillCell(where:string):void{
+  fillCell(where:string, number: number = this.selectedNumber):void{
     let cell = this.sudokuState.find(e => e.X.toString() == where[0] && e.Y.toString() == where[1] && e.x.toString() == where[2] && e.y.toString() == where[3]);
-    if(cell != undefined && cell.possibleNumbers.includes(this.selectedNumber) && !cell.hasBeenFilled){
-      this.strikeNumbersAroundCell(cell, this.selectedNumber);
-      cell.possibleNumbers=[this.selectedNumber];
+    if(cell != undefined && cell.possibleNumbers.includes(number) && !cell.hasBeenFilled){
+      this.strikeNumbersAroundCell(cell, number);
       cell.hasBeenFilled = true;
     }else {
       alert('you can not make this move :(');
@@ -52,12 +59,12 @@ export class SudokuComponent implements OnInit {
     cells.forEach(e => {e.possibleNumbers = e.possibleNumbers.filter(possibility => possibility != number)});
   }
 
-  strikeNumbersAroundCell(cell: SudokuType, number: number){
+  strikeNumbersAroundCell(cell: SudokuType, number: number){ //softfill
     this.strikeNumberInCluster(cell.X, cell.Y, number);//beauty
     this.strikeNunberInLine('horizontal',cell.Y,cell.y, number);
     this.strikeNunberInLine('vertical',cell.X,cell.x, number);
     let cellInJSON = JSON.stringify(cell);
-    this.sudokuState.filter(e => JSON.stringify(e) == cellInJSON)[0].possibleNumbers = cell.possibleNumbers;
+    this.sudokuState.filter(e => JSON.stringify(e) == cellInJSON)[0].possibleNumbers = [number];
 
 
     /*this.sudokuState.forEach(e => {//faster
@@ -80,7 +87,7 @@ export class SudokuComponent implements OnInit {
     let wasAThingToChange: boolean = false;
     for (const cell of this.sudokuState) {
       if (!cell.hasBeenFilled && cell.possibleNumbers.length == 1){
-        cell.hasBeenFilled = true;
+        this.fillCell(''+cell.X+cell.Y+cell.x+cell.y, cell.possibleNumbers[0]);
         wasAThingToChange = true;
       }
     }
@@ -151,11 +158,11 @@ export class SudokuComponent implements OnInit {
         clusters.push(this.getLine('horizontal',big,small),this.getLine('vertical',big,small));
       }
     }
+
     for (const cluster of clusters) {
       for (let number = 1; number <= 9; number++){
         let placesPossible = cluster.filter(cell => cell.possibleNumbers.includes(number));
-
-        if (placesPossible.length == 1 && !placesPossible[0].hasBeenFilled){
+        if (placesPossible.length === 1 && !placesPossible[0].hasBeenFilled){
           this.strikeNumbersAroundCell(placesPossible[0],number);
         }
       }

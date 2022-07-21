@@ -2,8 +2,9 @@
   <app-button [content]="'empty Sudoku'" (click)="resetSudoku()"></app-button>
   <app-button [content]="'scan Sudoku'" (click)="scanSudoku()"></app-button>
   <app-button [content]="'fill Black'" (click)="fillOnlyOnePossibility()"></app-button>
-  <app-button [content]="'solve Sudoku'" (click)="resetSudoku()"></app-button>
+  <app-button [content]="'solve Sudoku'" (click)="faszom()"></app-button>
   <app-button [content]="'get Sudoku'" (click)="getSudoku()"></app-button>
+  <app-button [content]="'mifasz'" (click)="miafaszvan()"></app-button>
 </div>
 <div class="three-by-three_grid" style="width:500px; height:500px; margin:auto;">
   <app-ninecell *ngFor="let _ of [].constructor(9); let i = index" [attr.data-index]="i"
