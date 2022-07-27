@@ -7,30 +7,13 @@ import { SudokuType } from './sudoku';
 export class SudokuService {
 
   constructor() { }
-  emptyCell(){
-    let emptyCell:number[] = [];
-    for (let index = 1; index <= 9; index++) {
-      emptyCell.push(index);
-    }
-    return emptyCell;
-  }
+
+
   emptySudoku():SudokuType[] {
     let emptySudoku:SudokuType[]  = []
-    let emptyCell = this.emptyCell();
-    for (let X = 0; X < 3; X++) {//ninecluster-coordinates
-      for (let Y = 0; Y < 3; Y++) {
-        for (let y = 0; y < 3; y++) {//cell-coordinates
-          for (let x = 0; x < 3; x++) {//y
-            emptySudoku.push({
-              'X':X,
-              'Y':Y,
-              'x':x,
-              'y':y,
-              'possibleNumbers': emptyCell,
-              'hasBeenFilled': false
-            })
-          }
-        }
+    for (let row = 0; row < 9; row++){
+      for (let column = 0; column < 9; column++){
+        emptySudoku.push(new SudokuType(row, column));
       }
     }
     return emptySudoku;
@@ -38,1843 +21,1160 @@ export class SudokuService {
   xddd(){
     return [
       {
-          "X": 0,
-          "Y": 0,
-          "x": 0,
-          "y": 0,
           "possibleNumbers": [
-              5
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              8
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
+              2,
+              3,
+              4,
               7,
               9
           ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              2
-          ],
-          "hasBeenFilled": true
-      },
-      {
+          "hasBeenFilled": false,
+          "row": 0,
+          "column": 0,
           "X": 0,
           "Y": 0,
           "x": 0,
-          "y": 2,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              2,
+              3,
+              7,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 0,
+          "column": 1,
+          "X": 0,
+          "Y": 0,
+          "x": 1,
+          "y": 0
+      },
+      {
           "possibleNumbers": [
               6
           ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              1
-          ],
-          "hasBeenFilled": false
-      },
-      {
+          "hasBeenFilled": true,
+          "row": 0,
+          "column": 2,
           "X": 0,
           "Y": 0,
           "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              3
-          ],
-          "hasBeenFilled": true
+          "y": 0
       },
       {
-          "X": 0,
-          "Y": 1,
+          "possibleNumbers": [
+              3,
+              7,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 0,
+          "column": 3,
+          "X": 1,
+          "Y": 0,
           "x": 0,
-          "y": 0,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              3,
+              4,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 0,
+          "column": 4,
+          "X": 1,
+          "Y": 0,
+          "x": 1,
+          "y": 0
+      },
+      {
           "possibleNumbers": [
               8
           ],
-          "hasBeenFilled": true
+          "hasBeenFilled": true,
+          "row": 0,
+          "column": 5,
+          "X": 1,
+          "Y": 0,
+          "x": 2,
+          "y": 0
       },
       {
-          "X": 0,
-          "Y": 1,
+          "possibleNumbers": [
+              4,
+              7
+          ],
+          "hasBeenFilled": false,
+          "row": 0,
+          "column": 6,
+          "X": 2,
+          "Y": 0,
+          "x": 0,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              5
+          ],
+          "hasBeenFilled": true,
+          "row": 0,
+          "column": 7,
+          "X": 2,
+          "Y": 0,
           "x": 1,
-          "y": 0,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              1
+          ],
+          "hasBeenFilled": true,
+          "row": 0,
+          "column": 8,
+          "X": 2,
+          "Y": 0,
+          "x": 2,
+          "y": 0
+      },
+      {
           "possibleNumbers": [
               1,
               2,
-              6
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
+              4,
+              5,
+              7,
               9
           ],
-          "hasBeenFilled": true
-      },
-      {
+          "hasBeenFilled": false,
+          "row": 1,
+          "column": 0,
           "X": 0,
-          "Y": 1,
+          "Y": 0,
           "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              3
-          ],
-          "hasBeenFilled": true
+          "y": 1
       },
       {
-          "X": 0,
-          "Y": 1,
-          "x": 1,
-          "y": 1,
           "possibleNumbers": [
+              2,
+              5,
+              7,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 1,
+          "column": 1,
+          "X": 0,
+          "Y": 0,
+          "x": 1,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              2,
+              4,
+              5,
               7
           ],
-          "hasBeenFilled": true
-      },
-      {
+          "hasBeenFilled": false,
+          "row": 1,
+          "column": 2,
           "X": 0,
-          "Y": 1,
+          "Y": 0,
           "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              5,
-              6
-          ],
-          "hasBeenFilled": false
+          "y": 1
       },
       {
-          "X": 0,
-          "Y": 1,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 1,
-          "y": 2,
           "possibleNumbers": [
               1,
-              6
+              5,
+              6,
+              7,
+              9
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 1,
+          "column": 3,
+          "X": 1,
+          "Y": 0,
+          "x": 0,
+          "y": 1
       },
       {
-          "X": 0,
-          "Y": 1,
-          "x": 2,
-          "y": 2,
           "possibleNumbers": [
               1,
               4,
               5,
-              6
+              6,
+              9
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 1,
+          "column": 4,
+          "X": 1,
+          "Y": 0,
+          "x": 1,
+          "y": 1
       },
       {
-          "X": 0,
-          "Y": 2,
+          "possibleNumbers": [
+              1,
+              4,
+              6,
+              7,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 1,
+          "column": 5,
+          "X": 1,
+          "Y": 0,
+          "x": 2,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              4,
+              6,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 1,
+          "column": 6,
+          "X": 2,
+          "Y": 0,
           "x": 0,
-          "y": 0,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              2,
+              4,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 1,
+          "column": 7,
+          "X": 2,
+          "Y": 0,
+          "x": 1,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              3
+          ],
+          "hasBeenFilled": true,
+          "row": 1,
+          "column": 8,
+          "X": 2,
+          "Y": 0,
+          "x": 2,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              8
+          ],
+          "hasBeenFilled": true,
+          "row": 2,
+          "column": 0,
+          "X": 0,
+          "Y": 0,
+          "x": 0,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              3,
+              5,
+              7,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 2,
+          "column": 1,
+          "X": 0,
+          "Y": 0,
+          "x": 1,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              3,
+              4,
+              5,
+              7
+          ],
+          "hasBeenFilled": false,
+          "row": 2,
+          "column": 2,
+          "X": 0,
+          "Y": 0,
+          "x": 2,
+          "y": 2
+      },
+      {
           "possibleNumbers": [
               2
           ],
-          "hasBeenFilled": true
+          "hasBeenFilled": true,
+          "row": 2,
+          "column": 3,
+          "X": 1,
+          "Y": 0,
+          "x": 0,
+          "y": 2
       },
       {
-          "X": 0,
-          "Y": 2,
-          "x": 1,
-          "y": 0,
           "possibleNumbers": [
+              1,
               3,
+              4,
+              5,
               6,
-              8
+              9
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 2,
+          "column": 4,
+          "X": 1,
+          "Y": 0,
+          "x": 1,
+          "y": 2
       },
       {
-          "X": 0,
-          "Y": 2,
-          "x": 2,
-          "y": 0,
           "possibleNumbers": [
+              1,
+              3,
+              4,
+              6,
+              7,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 2,
+          "column": 5,
+          "X": 1,
+          "Y": 0,
+          "x": 2,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              4,
               6,
               7
           ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
+          "hasBeenFilled": false,
+          "row": 2,
+          "column": 6,
+          "X": 2,
+          "Y": 0,
           "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              1
-          ],
-          "hasBeenFilled": true
+          "y": 2
       },
       {
-          "X": 0,
-          "Y": 2,
-          "x": 1,
-          "y": 1,
           "possibleNumbers": [
-              3,
+              4,
+              7
+          ],
+          "hasBeenFilled": false,
+          "row": 2,
+          "column": 7,
+          "X": 2,
+          "Y": 0,
+          "x": 1,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              4,
+              6,
+              7,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 2,
+          "column": 8,
+          "X": 2,
+          "Y": 0,
+          "x": 2,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              2,
+              4,
+              6,
+              7
+          ],
+          "hasBeenFilled": false,
+          "row": 3,
+          "column": 0,
+          "X": 0,
+          "Y": 1,
+          "x": 0,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              2,
+              6,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 3,
+          "column": 1,
+          "X": 0,
+          "Y": 1,
+          "x": 1,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              2,
+              4,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 3,
+          "column": 2,
+          "X": 0,
+          "Y": 1,
+          "x": 2,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              1,
+              6,
+              7,
+              8,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 3,
+          "column": 3,
+          "X": 1,
+          "Y": 1,
+          "x": 0,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              1,
+              2,
               6,
               8,
               9
           ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              4,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              5
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              4,
-              6
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              3,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              2,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              2,
-              3,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              5,
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              1,
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              8
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              5
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              9
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              5,
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
+          "hasBeenFilled": false,
+          "row": 3,
+          "column": 4,
           "X": 1,
           "Y": 1,
           "x": 1,
-          "y": 0,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              5
+          ],
+          "hasBeenFilled": true,
+          "row": 3,
+          "column": 5,
+          "X": 1,
+          "Y": 1,
+          "x": 2,
+          "y": 0
+      },
+      {
           "possibleNumbers": [
               3
           ],
-          "hasBeenFilled": true
+          "hasBeenFilled": true,
+          "row": 3,
+          "column": 6,
+          "X": 2,
+          "Y": 1,
+          "x": 0,
+          "y": 0
       },
       {
-          "X": 1,
+          "possibleNumbers": [
+              1,
+              4,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 3,
+          "column": 7,
+          "X": 2,
+          "Y": 1,
+          "x": 1,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              4,
+              6,
+              7
+          ],
+          "hasBeenFilled": false,
+          "row": 3,
+          "column": 8,
+          "X": 2,
           "Y": 1,
           "x": 2,
-          "y": 0,
+          "y": 0
+      },
+      {
           "possibleNumbers": [
+              3,
               4,
               5,
               6,
               7
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 4,
+          "column": 0,
+          "X": 0,
+          "Y": 1,
+          "x": 0,
+          "y": 1
       },
       {
+          "possibleNumbers": [
+              3,
+              5,
+              6,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 4,
+          "column": 1,
+          "X": 0,
+          "Y": 1,
+          "x": 1,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              9
+          ],
+          "hasBeenFilled": true,
+          "row": 4,
+          "column": 2,
+          "X": 0,
+          "Y": 1,
+          "x": 2,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              1,
+              3,
+              6,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 4,
+          "column": 3,
           "X": 1,
           "Y": 1,
           "x": 0,
-          "y": 1,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              1,
+              3,
+              6,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 4,
+          "column": 4,
+          "X": 1,
+          "Y": 1,
+          "x": 1,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              1,
+              3,
+              6,
+              7
+          ],
+          "hasBeenFilled": false,
+          "row": 4,
+          "column": 5,
+          "X": 1,
+          "Y": 1,
+          "x": 2,
+          "y": 1
+      },
+      {
           "possibleNumbers": [
               2
           ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              6,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              1
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
+          "hasBeenFilled": true,
+          "row": 4,
+          "column": 6,
+          "X": 2,
           "Y": 1,
           "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              5,
-              6,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
+          "y": 1
       },
       {
-          "X": 1,
-          "Y": 1,
-          "x": 1,
-          "y": 2,
           "possibleNumbers": [
+              1,
+              4,
+              7,
               8
           ],
-          "hasBeenFilled": true
+          "hasBeenFilled": false,
+          "row": 4,
+          "column": 7,
+          "X": 2,
+          "Y": 1,
+          "x": 1,
+          "y": 1
       },
       {
-          "X": 1,
-          "Y": 1,
-          "x": 2,
-          "y": 2,
           "possibleNumbers": [
               4,
-              5,
               6,
               7
           ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              1
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              5
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 2,
+          "hasBeenFilled": false,
+          "row": 4,
+          "column": 8,
+          "X": 2,
+          "Y": 1,
           "x": 2,
-          "y": 0,
+          "y": 1
+      },
+      {
           "possibleNumbers": [
+              2,
               3,
               6,
               7
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 5,
+          "column": 0,
+          "X": 0,
+          "Y": 1,
+          "x": 0,
+          "y": 2
       },
       {
-          "X": 1,
-          "Y": 2,
-          "x": 0,
-          "y": 1,
+          "possibleNumbers": [
+              1
+          ],
+          "hasBeenFilled": true,
+          "row": 5,
+          "column": 1,
+          "X": 0,
+          "Y": 1,
+          "x": 1,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              2,
+              3,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 5,
+          "column": 2,
+          "X": 0,
+          "Y": 1,
+          "x": 2,
+          "y": 2
+      },
+      {
           "possibleNumbers": [
               4
           ],
-          "hasBeenFilled": true
+          "hasBeenFilled": true,
+          "row": 5,
+          "column": 3,
+          "X": 1,
+          "Y": 1,
+          "x": 0,
+          "y": 2
       },
       {
-          "X": 1,
-          "Y": 2,
-          "x": 1,
-          "y": 1,
           "possibleNumbers": [
+              2,
+              3,
               6,
-              7,
-              9
+              8
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 5,
+          "column": 4,
+          "X": 1,
+          "Y": 1,
+          "x": 1,
+          "y": 2
       },
       {
-          "X": 1,
-          "Y": 2,
-          "x": 2,
-          "y": 1,
           "possibleNumbers": [
               3,
               6,
               7
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 5,
+          "column": 5,
+          "X": 1,
+          "Y": 1,
+          "x": 2,
+          "y": 2
       },
       {
-          "X": 1,
+          "possibleNumbers": [
+              6,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 5,
+          "column": 6,
+          "X": 2,
+          "Y": 1,
+          "x": 0,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              9
+          ],
+          "hasBeenFilled": true,
+          "row": 5,
+          "column": 7,
+          "X": 2,
+          "Y": 1,
+          "x": 1,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              5
+          ],
+          "hasBeenFilled": true,
+          "row": 5,
+          "column": 8,
+          "X": 2,
+          "Y": 1,
+          "x": 2,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              2,
+              3,
+              5,
+              6,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 6,
+          "column": 0,
+          "X": 0,
           "Y": 2,
           "x": 0,
-          "y": 2,
+          "y": 0
+      },
+      {
           "possibleNumbers": [
+              4
+          ],
+          "hasBeenFilled": true,
+          "row": 6,
+          "column": 1,
+          "X": 0,
+          "Y": 2,
+          "x": 1,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              2,
               3,
+              5,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 6,
+          "column": 2,
+          "X": 0,
+          "Y": 2,
+          "x": 2,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              1,
+              3,
+              5,
               6,
               8,
               9
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 6,
+          "column": 3,
+          "X": 1,
+          "Y": 2,
+          "x": 0,
+          "y": 0
       },
       {
+          "possibleNumbers": [
+              7
+          ],
+          "hasBeenFilled": true,
+          "row": 6,
+          "column": 4,
           "X": 1,
           "Y": 2,
           "x": 1,
-          "y": 2,
+          "y": 0
+      },
+      {
           "possibleNumbers": [
-              2,
+              1,
+              3,
               6,
               9
           ],
-          "hasBeenFilled": false
-      },
-      {
+          "hasBeenFilled": false,
+          "row": 6,
+          "column": 5,
           "X": 1,
           "Y": 2,
           "x": 2,
-          "y": 2,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              1,
+              5
+          ],
+          "hasBeenFilled": false,
+          "row": 6,
+          "column": 6,
+          "X": 2,
+          "Y": 2,
+          "x": 0,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              1,
+              2,
+              3
+          ],
+          "hasBeenFilled": false,
+          "row": 6,
+          "column": 7,
+          "X": 2,
+          "Y": 2,
+          "x": 1,
+          "y": 0
+      },
+      {
+          "possibleNumbers": [
+              2
+          ],
+          "hasBeenFilled": false,
+          "row": 6,
+          "column": 8,
+          "X": 2,
+          "Y": 2,
+          "x": 2,
+          "y": 0
+      },
+      {
           "possibleNumbers": [
               2,
               3,
-              6
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              6
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              1,
               5,
-              9
+              6,
+              7
           ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              1,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              3
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 0,
+          "hasBeenFilled": false,
+          "row": 7,
+          "column": 0,
+          "X": 0,
+          "Y": 2,
           "x": 0,
-          "y": 2,
+          "y": 1
+      },
+      {
           "possibleNumbers": [
-              1,
+              2,
+              3,
               5,
+              6,
+              7,
               8
           ],
-          "hasBeenFilled": false
+          "hasBeenFilled": false,
+          "row": 7,
+          "column": 1,
+          "X": 0,
+          "Y": 2,
+          "x": 1,
+          "y": 1
       },
       {
-          "X": 2,
-          "Y": 0,
+          "possibleNumbers": [
+              2,
+              3,
+              5,
+              7,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 7,
+          "column": 2,
+          "X": 0,
+          "Y": 2,
+          "x": 2,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              1,
+              3,
+              5,
+              6,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 7,
+          "column": 3,
+          "X": 1,
+          "Y": 2,
+          "x": 0,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              1,
+              3,
+              4,
+              5,
+              6,
+              8
+          ],
+          "hasBeenFilled": false,
+          "row": 7,
+          "column": 4,
+          "X": 1,
+          "Y": 2,
           "x": 1,
-          "y": 2,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              1,
+              3,
+              4,
+              6
+          ],
+          "hasBeenFilled": false,
+          "row": 7,
+          "column": 5,
+          "X": 1,
+          "Y": 2,
+          "x": 2,
+          "y": 1
+      },
+      {
+          "possibleNumbers": [
+              9
+          ],
+          "hasBeenFilled": true,
+          "row": 7,
+          "column": 6,
+          "X": 2,
+          "Y": 2,
+          "x": 0,
+          "y": 1
+      },
+      {
           "possibleNumbers": [
               1,
               2,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
+              3,
+              4,
               7
           ],
-          "hasBeenFilled": true
-      },
-      {
+          "hasBeenFilled": false,
+          "row": 7,
+          "column": 7,
           "X": 2,
-          "Y": 1,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              5,
-              6
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
+          "Y": 2,
           "x": 1,
-          "y": 0,
+          "y": 1
+      },
+      {
           "possibleNumbers": [
-              1,
+              2,
+              4,
               7
           ],
-          "hasBeenFilled": false
-      },
-      {
+          "hasBeenFilled": false,
+          "row": 7,
+          "column": 8,
           "X": 2,
-          "Y": 1,
+          "Y": 2,
           "x": 2,
-          "y": 0,
+          "y": 1
+      },
+      {
           "possibleNumbers": [
+              3,
               5,
-              6
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              5,
-              6,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              8
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              3
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              1,
               7,
               9
           ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              2
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
+          "hasBeenFilled": false,
+          "row": 8,
+          "column": 0,
+          "X": 0,
           "Y": 2,
           "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": true
+          "y": 2
       },
       {
-          "X": 2,
-          "Y": 2,
-          "x": 1,
-          "y": 0,
           "possibleNumbers": [
               3,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
+              5,
+              7,
               9
           ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              2
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
+          "hasBeenFilled": false,
+          "row": 8,
+          "column": 1,
+          "X": 0,
           "Y": 2,
           "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              5
-          ],
-          "hasBeenFilled": true
+          "y": 2
       },
       {
-          "X": 2,
-          "Y": 2,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              6
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              7
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              3,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 2,
-          "y": 2,
           "possibleNumbers": [
               1
           ],
-          "hasBeenFilled": true
+          "hasBeenFilled": true,
+          "row": 8,
+          "column": 2,
+          "X": 0,
+          "Y": 2,
+          "x": 2,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              3,
+              5,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 8,
+          "column": 3,
+          "X": 1,
+          "Y": 2,
+          "x": 0,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              3,
+              4,
+              5,
+              9
+          ],
+          "hasBeenFilled": false,
+          "row": 8,
+          "column": 4,
+          "X": 1,
+          "Y": 2,
+          "x": 1,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              2
+          ],
+          "hasBeenFilled": true,
+          "row": 8,
+          "column": 5,
+          "X": 1,
+          "Y": 2,
+          "x": 2,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              4,
+              5,
+              7
+          ],
+          "hasBeenFilled": false,
+          "row": 8,
+          "column": 6,
+          "X": 2,
+          "Y": 2,
+          "x": 0,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              6
+          ],
+          "hasBeenFilled": true,
+          "row": 8,
+          "column": 7,
+          "X": 2,
+          "Y": 2,
+          "x": 1,
+          "y": 2
+      },
+      {
+          "possibleNumbers": [
+              8
+          ],
+          "hasBeenFilled": true,
+          "row": 8,
+          "column": 8,
+          "X": 2,
+          "Y": 2,
+          "x": 2,
+          "y": 2
       }
   ]
-  }
-  fasz(){
-    return [
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              5,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              2,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              6
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              3,
-              7,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              2,
-              3,
-              7,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              1
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              3,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 0,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              3,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              2
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              4,
-              7,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              5
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              4,
-              6,
-              7,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              4,
-              6,
-              7,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              1,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              9
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              3,
-              6,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 1,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              1,
-              3
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              3,
-              4,
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              5
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              2,
-              3,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              3,
-              4,
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              1
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              2,
-              3,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              3,
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              2,
-              3,
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 0,
-          "Y": 2,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              8
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              3
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              2,
-              4,
-              5,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              7
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              1,
-              2,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              1,
-              2,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              4,
-              5,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              4,
-              5,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 0,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              6
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              4,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              3
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              4,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              2
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              1,
-              4,
-              5,
-              6,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              1,
-              4,
-              5,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              5,
-              6,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              7
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 1,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              1,
-              5,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              4,
-              6,
-              7,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              2,
-              4,
-              6,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              2,
-              3,
-              4,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              4,
-              5,
-              6,
-              7,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              2,
-              4,
-              5,
-              6,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              2,
-              3,
-              4,
-              5,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              1
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              2,
-              5,
-              6
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 1,
-          "Y": 2,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              9
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              4,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              6,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              1,
-              3,
-              6,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              5
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              4,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              8
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 0,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              2
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              1
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              6
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              3
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              5,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              7,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              2,
-              5,
-              8
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              2,
-              5
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 1,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 0,
-          "y": 0,
-          "possibleNumbers": [
-              2,
-              6,
-              7,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 1,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              2,
-              3,
-              6,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 2,
-          "y": 0,
-          "possibleNumbers": [
-              1,
-              3,
-              7,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 0,
-          "y": 1,
-          "possibleNumbers": [
-              2,
-              5,
-              6,
-              7,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 1,
-          "y": 1,
-          "possibleNumbers": [
-              2,
-              3,
-              5,
-              6,
-              7,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 2,
-          "y": 1,
-          "possibleNumbers": [
-              3,
-              7,
-              8,
-              9
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 0,
-          "y": 2,
-          "possibleNumbers": [
-              2,
-              5,
-              6,
-              7
-          ],
-          "hasBeenFilled": false
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 1,
-          "y": 2,
-          "possibleNumbers": [
-              4
-          ],
-          "hasBeenFilled": true
-      },
-      {
-          "X": 2,
-          "Y": 2,
-          "x": 2,
-          "y": 2,
-          "possibleNumbers": [
-              3,
-              7
-          ],
-          "hasBeenFilled": false
-      }
-  ];
   }
 }
