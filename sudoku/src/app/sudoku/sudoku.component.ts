@@ -1,3 +1,4 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { SudokuType } from '../sudoku';
 import { SudokuService } from '../sudoku.service';
@@ -21,26 +22,31 @@ export class SudokuComponent implements OnInit {
 
 
   //sudoku datasets
-  sudokuState:SudokuType[] = [];
+  sudokuState: SudokuType[] = [];
+  sudokuCopy: SudokuType[] = [];
   resetSudoku(){
     this.sudokuState = this._sudokuService.emptySudoku();
   }
   getSudoku(){
     this.sudokuState = this._sudokuService.xddd();
+
   }
   faszom(){
-    //this.sudokuState = this._sudokuService.fasz();
+    this.sudokuState = this._sudokuService.fasz();
   }
 
   miafaszvan(){
-    console.log(this.sudokuState);
+    console.log(this.sudokuState, this.sudokuCopy);
+  }
 
+  getLiteralCopy(object: object){
+    return JSON.parse(JSON.stringify(object));
   }
 
 
 
   // sudoku access
-  getCluster(where:number | {X: number, Y: number}){
+  getCluster(where:number | {X: number, Y: number}, sudoku: SudokuType[] = this.sudokuState){
     let desiredX:number;
     let desiredY:number;
     if(typeof(where) == 'number'){
@@ -50,26 +56,33 @@ export class SudokuComponent implements OnInit {
       desiredX = where.X;
       desiredY = where.Y;
     }
-    return this.sudokuState.filter(sudokuCell => sudokuCell.X == desiredX && sudokuCell.Y == desiredY).sort((a,b) => (a.x+a.y*3)-(b.x+b.y*3));
+    return sudoku.filter(sudokuCell => sudokuCell.X == desiredX && sudokuCell.Y == desiredY).sort((a,b) => (a.x+a.y*3)-(b.x+b.y*3));
   }
 
-  getAllCLusters(){
+  getAllCLusters(sudoku: SudokuType[] = this.sudokuState){
     let clusters: SudokuType[][] = [];
     for (let clusterId = 0; clusterId < 9; clusterId++) {
-      clusters.push(this.getCluster(clusterId));
+      clusters.push(this.getCluster(clusterId, sudoku));
     }
     return clusters;
   }
 
-  getLine(row: number | undefined, column: number|undefined){ // returns the array of cells in the specified row and/or column
-    return this.sudokuState.filter(cell => cell.row === row || cell.column === column);
+  getLine(row: number | undefined, column: number|undefined, sudoku: SudokuType[] = this.sudokuState){ // returns the array of cells in the specified row and/or column
+    return sudoku.filter(cell => cell.row === row || cell.column === column);
   }
 
   //change sudoku
-  fillCell(where:string, number: number = this.selectedNumber):void{
-    let cell = this.sudokuState.find(e => e.X.toString() == where[0] && e.Y.toString() == where[1] && e.x.toString() == where[2] && e.y.toString() == where[3]);
+  fillCell(where:string | {row:number, column: number}, number: number = this.selectedNumber, sudoku: SudokuType[] = this.sudokuState){
+    let cell;
+    let cellsModified: SudokuType[];
+    if(typeof(where) === 'string'){
+      cell = sudoku.find(e => e.X.toString() == where[0] && e.Y.toString() == where[1] && e.x.toString() == where[2] && e.y.toString() == where[3]);
+    }else {
+      cell = sudoku.find(e => e.row == where.row && e.column == where.column);
+    }
+
     if(cell != undefined && cell.possibleNumbers.includes(number) && !cell.hasBeenFilled){
-      this.strikeNumbersAroundCell(cell, number);
+      this.strikeNumbersAroundCell(cell, number, sudoku);
       cell.hasBeenFilled = true;
     }else {
       alert('you can not make this move :(');
@@ -80,131 +93,58 @@ export class SudokuComponent implements OnInit {
     cells.forEach(e => {e.possibleNumbers = e.possibleNumbers.filter(possibility => possibility != number)});
   }
 
-  strikeNumberInLine(row:number | undefined, column:number | undefined, number: number){ //strikes a numberfrom the row and the colummn (if defined)
-    this.clearCells(this.getLine(row, column),number);
+  strikeNumberInLine(row:number | undefined, column:number | undefined, number: number, sudoku: SudokuType[] = this.sudokuState){ //strikes a numberfrom the row and the colummn (if defined)
+    this.clearCells(this.getLine(row, column, sudoku),number);
   }
 
-  strikeNumberInCluster(X:number, Y: number, number: number){
-    this.clearCells(this.sudokuState.filter(cell => cell.X == X && cell.Y == Y),number);
+  strikeNumberInCluster(X:number, Y: number, number: number, sudoku: SudokuType[] = this.sudokuState){
+    this.clearCells(sudoku.filter(cell => cell.X == X && cell.Y == Y),number);
   }
 
-  fillOnlyOnePossibility():boolean{
-    let wasAThingToChange: boolean = false;
-    for (const cell of this.sudokuState) {
-      if (!cell.hasBeenFilled && cell.possibleNumbers.length == 1){
-        this.fillCell(''+cell.X+cell.Y+cell.x+cell.y, cell.possibleNumbers[0]);
-        wasAThingToChange = true;
-      }
-    }
-    return wasAThingToChange;
+  fillOnlyOnePossibility(){
+    for (const cell of this.sudokuState) if (!cell.hasBeenFilled && cell.possibleNumbers.length == 1) this.fillCell(''+cell.X+cell.Y+cell.x+cell.y, cell.possibleNumbers[0]);
   }
 
-  strikeNumbersAroundCell(cell: SudokuType, number: number){ //softfill
-    this.strikeNumberInCluster(cell.X, cell.Y, number);//beauty
-    this.strikeNumberInLine(cell.row, cell.column, number);
+  strikeNumbersAroundCell(cell: SudokuType, number: number, sudoku: SudokuType[] = this.sudokuState){ //softfill
+    this.strikeNumberInCluster(cell.X, cell.Y, number, sudoku);//beauty
+    this.strikeNumberInLine(cell.row, cell.column, number, sudoku);
     let cellInJSON = JSON.stringify(cell);
     this.sudokuState.filter(e => JSON.stringify(e) == cellInJSON)[0].possibleNumbers = [number];
-
-
-    /*this.sudokuState.forEach(e => {//faster
-      if((e.X == cell?.X && e.Y == cell.Y) || (e.X == cell?.X && e.x == cell.x) || (e.Y == cell?.Y && e.y == cell.y) && e.possibleNumbers.includes(this.selectedNumber))
-      {
-        e.possibleNumbers = e.possibleNumbers.filter(numb => numb != this.selectedNumber);
-      }
-    });*/
   }
 
   selectedNumber:number = 1;
   setSelectedNumber(i: number = 1){this.selectedNumber = i;}
 
 
-//sudoku solver
-
-  numberInFewLines (cluster: SudokuType[], number: number){
-    let fewcell = cluster.filter(e => e.possibleNumbers.includes(number));
-    let returnable: {
-      isInOneLine: 'rowcol' | 'row' | 'col' | undefined;//true: only one times in the cluster, false: not in one line, x: in one row, y: in one column
-      occupiedColumns: number[];
-      occupiedRows: number[];
-    } = {
-      'isInOneLine': 'rowcol',
-      'occupiedColumns': [fewcell[0].x],
-      'occupiedRows': [fewcell[0].y]
-    }
-    if (fewcell.length === 1) {
-      return returnable;
-    } else {
-      returnable.isInOneLine = undefined;
-    }
-
-
-
-    for (const cell of fewcell) {
-      if (!returnable.occupiedColumns.includes(cell.x)){
-        returnable.occupiedColumns.push(cell.x);
-      }
-      if (!returnable.occupiedRows.includes(cell.y)){
-        returnable.occupiedRows.push(cell.y);
-      }
-    }
-
-    if (returnable.occupiedColumns.length === 1){
-      returnable.isInOneLine = 'col';
-    } else if (returnable.occupiedRows.length === 1){
-      returnable.isInOneLine = 'row';
-    }
-    return returnable;
-  }
-
-  scanForInOneLine(){ // if in a cluster the only way a number can be is in one line (so in that line other clusters can't have the number)
-    for (let clusterId = 0; clusterId < 9; clusterId++) {
-      const cluster = JSON.parse(JSON.stringify(this.getCluster(clusterId)));
-      for (let number = 1; number <= 9; number++) {
-        const lineAnalisys = this.numberInFewLines(cluster,number);
-        const column = (clusterId % 3)*3 + lineAnalisys.occupiedColumns[0];
-        const row = Math.floor(clusterId / 3)*3 + lineAnalisys.occupiedRows[0];
-        if (lineAnalisys.isInOneLine === 'row'){
-          this.strikeNumberInLine(row, undefined, number);
-        }
-        else if (lineAnalisys.isInOneLine === 'col'){
-          this.strikeNumberInLine(undefined, column, number);
-        }
-      }
-      this.getCluster(clusterId).forEach((e,i) => {e.possibleNumbers = cluster[i].possibleNumbers});
+  //sudokusolver
+  sleepFor(sleepDuration: number){
+    let now = new Date().getTime();
+    while(new Date().getTime() < now + sleepDuration){
+        /* Do nothing */
     }
   }
 
-  scanOnePlacePossible(){//if there is only one place possible for a number in a line or cluster
-    let nineCells: SudokuType[][] = [];
-    nineCells = nineCells.concat(this.getAllCLusters());
-    for (let line = 0; line < 9; line++) {//alll lines
-      nineCells.push(this.getLine(line,undefined),this.getLine(undefined,line));
-    }
-    for (const nineCell of nineCells) {
-      for (let number = 1; number <= 9; number++){
-        let placesPossible = nineCell.filter(cell => cell.possibleNumbers.includes(number));
-        if (placesPossible.length === 1 && !placesPossible[0].hasBeenFilled){
-          this.strikeNumbersAroundCell(placesPossible[0],number);
-        }
+  solveSudoku(sudoku: SudokuType[]): boolean{
+    let cell = sudoku.reduce((pre,cur) => !cur.hasBeenFilled && (pre.hasBeenFilled || cur.possibleNumbers.length <= pre.possibleNumbers.length) ? cur : pre);
+    if (cell.hasBeenFilled) {alert("success"); return true;}
+
+    let numbers = this.getLiteralCopy(cell.possibleNumbers);
+
+    for (const number of numbers) {
+      let changes = sudoku.filter(function(e) {
+        if (!e.hasBeenFilled && e.possibleNumbers.includes(number)
+          && (e.row === cell.row || e.column === cell.column || (e.X === cell.X && e.Y === cell.Y))
+        ) { e.possibleNumbers = e.possibleNumbers.filter(num => num != number); return true;} return false;
+      });
+      cell.hasBeenFilled = true;
+      cell.possibleNumbers = [number];
+      if (this.solveSudoku(sudoku)){
+        return true;
       }
+      changes.forEach(e => e.possibleNumbers.push(number));
+      cell.possibleNumbers = numbers;
+      cell.hasBeenFilled = false;
     }
-  }
-
-
-  nameitlater(){
-    let clusters: SudokuType[][] = [];
-    for (let clusterId = 0; clusterId < 9; clusterId++) {
-      clusters.push(this.getCluster(clusterId));
-    }
-    let clustersOnSide = clusters.filter(cells => cells.every(cell => cell.X == 1 || cell.Y == 1));
-    for (const cluster of clustersOnSide) {
-      //páronként baszás az elfoglalt lanekkel
-    }
-  }
-
-  scanSudoku(){
-    this.scanForInOneLine();
-    this.scanOnePlacePossible();
-
+    return false;
   }
 }

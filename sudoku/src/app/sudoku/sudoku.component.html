@@ -1,8 +1,8 @@
 <div class="three-by-three_grid" style="width:500px; height: 180px; margin:auto;">
   <app-button [content]="'empty Sudoku'" (click)="resetSudoku()"></app-button>
-  <app-button [content]="'scan Sudoku'" (click)="scanSudoku()"></app-button>
+  <app-button [content]="'some sudoku'" (click)="faszom()"></app-button>
   <app-button [content]="'fill Black'" (click)="fillOnlyOnePossibility()"></app-button>
-  <app-button [content]="'solve Sudoku'" (click)="faszom()"></app-button>
+  <app-button [content]="'solve Sudoku'" (click)="solveSudoku(sudokuState)"></app-button>
   <app-button [content]="'get Sudoku'" (click)="getSudoku()"></app-button>
   <app-button [content]="'mifasz'" (click)="miafaszvan()"></app-button>
 </div>
