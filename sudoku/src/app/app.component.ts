@@ -8,4 +8,5 @@ import { SudokuComponent } from './sudoku/sudoku.component';
 })
 export class AppComponent {
   title = 'sudoku';
+  
 }

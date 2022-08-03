@@ -119,9 +119,8 @@ $dark_color : black;
   @include hover_animated_rotate();
   @include centerd_content();
   @include simple_text();
-  width: fit-content;
-  padding-left: 20px;
-  padding-right: 20px;
+  width: 90%;
+  margin: auto;
   border-radius: 21px;
 }
 

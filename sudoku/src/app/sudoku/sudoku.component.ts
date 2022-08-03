@@ -1,5 +1,4 @@
-import { CurrencyPipe } from '@angular/common';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { SudokuType } from '../sudoku';
 import { SudokuService } from '../sudoku.service';
 
@@ -19,11 +18,15 @@ export class SudokuComponent implements OnInit {
   }
 
 
+  @Output() winEvent = new EventEmitter<SudokuType[]>()
+  checkWin(){
+    if(this.sudokuState.every(e => e.hasBeenFilled)) console.log("das ist gut");
+    this.winEvent.emit(this.sudokuState);
+  }
 
 
   //sudoku datasets
   sudokuState: SudokuType[] = [];
-  sudokuCopy: SudokuType[] = [];
   resetSudoku(){
     this.sudokuState = this._sudokuService.emptySudoku();
   }
@@ -36,7 +39,7 @@ export class SudokuComponent implements OnInit {
   }
 
   miafaszvan(){
-    console.log(this.sudokuState, this.sudokuCopy);
+    console.log(this.sudokuState);
   }
 
   getLiteralCopy(object: object){
@@ -74,7 +77,6 @@ export class SudokuComponent implements OnInit {
   //change sudoku
   fillCell(where:string | {row:number, column: number}, number: number = this.selectedNumber, sudoku: SudokuType[] = this.sudokuState){
     let cell;
-    let cellsModified: SudokuType[];
     if(typeof(where) === 'string'){
       cell = sudoku.find(e => e.X.toString() == where[0] && e.Y.toString() == where[1] && e.x.toString() == where[2] && e.y.toString() == where[3]);
     }else {
@@ -84,9 +86,11 @@ export class SudokuComponent implements OnInit {
     if(cell != undefined && cell.possibleNumbers.includes(number) && !cell.hasBeenFilled){
       this.strikeNumbersAroundCell(cell, number, sudoku);
       cell.hasBeenFilled = true;
+      this.checkWin();
     }else {
       alert('you can not make this move :(');
     }
+
   }
 
   clearCells(cells:SudokuType[], number:number){
@@ -102,7 +106,7 @@ export class SudokuComponent implements OnInit {
   }
 
   fillOnlyOnePossibility(){
-    for (const cell of this.sudokuState) if (!cell.hasBeenFilled && cell.possibleNumbers.length == 1) this.fillCell(''+cell.X+cell.Y+cell.x+cell.y, cell.possibleNumbers[0]);
+    for (const cell of this.sudokuState) if (!cell.hasBeenFilled && cell.possibleNumbers.length === 1) this.fillCell({row: cell.row, column: cell.column}, cell.possibleNumbers[0]);
   }
 
   strikeNumbersAroundCell(cell: SudokuType, number: number, sudoku: SudokuType[] = this.sudokuState){ //softfill
@@ -117,19 +121,16 @@ export class SudokuComponent implements OnInit {
 
 
   //sudokusolver
-  sleepFor(sleepDuration: number){
-    let now = new Date().getTime();
-    while(new Date().getTime() < now + sleepDuration){
-        /* Do nothing */
-    }
-  }
-
+  lookingForSolutions: boolean = false;
   solveSudoku(sudoku: SudokuType[]): boolean{
     let cell = sudoku.reduce((pre,cur) => !cur.hasBeenFilled && (pre.hasBeenFilled || cur.possibleNumbers.length <= pre.possibleNumbers.length) ? cur : pre);
-    if (cell.hasBeenFilled) {alert("success"); return true;}
+    if (cell.hasBeenFilled) {
+      this.lookingForSolutions = confirm("found a solution, do u want more?");
+      this.checkWin();
+      return true;
+    }
 
     let numbers = this.getLiteralCopy(cell.possibleNumbers);
-
     for (const number of numbers) {
       let changes = sudoku.filter(function(e) {
         if (!e.hasBeenFilled && e.possibleNumbers.includes(number)
@@ -138,7 +139,7 @@ export class SudokuComponent implements OnInit {
       });
       cell.hasBeenFilled = true;
       cell.possibleNumbers = [number];
-      if (this.solveSudoku(sudoku)){
+      if (this.solveSudoku(sudoku) && !this.lookingForSolutions){
         return true;
       }
       changes.forEach(e => e.possibleNumbers.push(number));
