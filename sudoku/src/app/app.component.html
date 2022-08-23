@@ -1,1 +1,2 @@
-<app-sudoku></app-sudoku>
+<app-sudoku id="solvableSudoku" [solvable]="true" (winEvent)="solvedSudokus.unshift($event)"></app-sudoku>
+<app-sudoku *ngFor="let sudoku of solvedSudokus" [sudoku]="sudoku"></app-sudoku>

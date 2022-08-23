@@ -1,4 +1,4 @@
-<div class="three-by-three_grid" style="width:500px; height: 180px; margin:auto;">
+<div *ngIf="buttons" class="three-by-three_grid" style="width:500px; height: 180px; margin:auto;">
   <app-button [content]="'empty Sudoku'" (click)="resetSudoku()"></app-button>
   <app-button [content]="'some sudoku'" (click)="faszom()"></app-button>
   <app-button [content]="'fill Black'" (click)="fillOnlyOnePossibility()"></app-button>
@@ -12,9 +12,9 @@
   (cellClick)="fillCell($event)">
   </app-ninecell>
 </div>
-<div class="three-by-three_grid" style="width:500px;margin:auto;">
+<div *ngIf="buttons" class="three-by-three_grid" style="width:500px;margin:auto;">
   <div *ngFor="let _ of [].constructor(3); let i = index" [attr.data-index]="i" style="padding-top: 10px;"class="three-by-three_grid">
     <app-button *ngFor="let _ of [].constructor(3); let j = index" [attr.data-index]="i" [content]="(i*3+j+1)+''" (click)="setSelectedNumber(i*3+j+1)"></app-button>
   </div>
 </div>
-<p class="simple-text-container dark"style="width:500px;margin:auto; margin-top: 10px;">The selected number to add is {{selectedNumber}}</p>
+<p class="simple-text-container dark"style="width:500px;margin:auto; margin-top: 10px;"><span *ngIf="buttons"> The selected number to add is {{selectedNumber}}</span></p>

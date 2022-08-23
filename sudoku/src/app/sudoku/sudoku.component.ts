@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output, Input } from '@angular/core';
 import { SudokuType } from '../sudoku';
 import { SudokuService } from '../sudoku.service';
 
@@ -10,23 +10,25 @@ import { SudokuService } from '../sudoku.service';
 export class SudokuComponent implements OnInit {
 
   constructor(private _sudokuService: SudokuService) {
-
   }
 
   ngOnInit(): void {
-    this.resetSudoku();
   }
 
 
-  @Output() winEvent = new EventEmitter<SudokuType[]>()
+  @Input('sudoku') sudokuState: SudokuType[] = this._sudokuService.emptySudoku();
+  @Input('solvable') buttons: boolean = false;
+
+  @Output() winEvent = new EventEmitter<SudokuType[]>();
   checkWin(){
-    if(this.sudokuState.every(e => e.hasBeenFilled)) console.log("das ist gut");
+    if(this.sudokuState.every(e => e.hasBeenFilled)){
+    console.log("das ist gut");
     this.winEvent.emit(this.sudokuState);
+    }
   }
 
 
   //sudoku datasets
-  sudokuState: SudokuType[] = [];
   resetSudoku(){
     this.sudokuState = this._sudokuService.emptySudoku();
   }
@@ -90,7 +92,6 @@ export class SudokuComponent implements OnInit {
     }else {
       alert('you can not make this move :(');
     }
-
   }
 
   clearCells(cells:SudokuType[], number:number){
@@ -125,8 +126,8 @@ export class SudokuComponent implements OnInit {
   solveSudoku(sudoku: SudokuType[]): boolean{
     let cell = sudoku.reduce((pre,cur) => !cur.hasBeenFilled && (pre.hasBeenFilled || cur.possibleNumbers.length <= pre.possibleNumbers.length) ? cur : pre);
     if (cell.hasBeenFilled) {
+      this.winEvent.emit(this.getLiteralCopy(this.sudokuState));
       this.lookingForSolutions = confirm("found a solution, do u want more?");
-      this.checkWin();
       return true;
     }
 
@@ -135,11 +136,12 @@ export class SudokuComponent implements OnInit {
       let changes = sudoku.filter(function(e) {
         if (!e.hasBeenFilled && e.possibleNumbers.includes(number)
           && (e.row === cell.row || e.column === cell.column || (e.X === cell.X && e.Y === cell.Y))
-        ) { e.possibleNumbers = e.possibleNumbers.filter(num => num != number); return true;} return false;
+        ) { e.possibleNumbers = e.possibleNumbers.filter(num => num != number); return true;} return false;//sudoku.filter returns
       });
       cell.hasBeenFilled = true;
       cell.possibleNumbers = [number];
       if (this.solveSudoku(sudoku) && !this.lookingForSolutions){
+        this.resetSudoku();
         return true;
       }
       changes.forEach(e => e.possibleNumbers.push(number));
